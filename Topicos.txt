@@ -1,0 +1,111 @@
+> [!note]
+>O que ainda falta decidir é:
+>1. Backend (Firebase ou outro).
+>2. Nível de banco de dados (só local ou também nuvem).
+>3. Estrutura do login (básico x camadas).
+>4. Tipo de notificações (locais x push).
+>5. Escopo exato do MVP.
+>6. Biblioteca de UI.  
+>7. Integrações externas no MVP ou não.
+
+
+# Como usar o Firebase?
+- Instalação:
+	Comando: sudo npm install -g firebase-tools
+	Fazer login com a conta Google: firebase login
+	No diretório do projeto: firebase init
+
+# App Universitário:
+
+**DEFINIÇÃO DO PROJETO:**
+O app **Agenda Universitária** busca unir organização, produtividade e tecnologia em um só ambiente, criando uma ferramenta que não apenas apoia a gestão acadêmica, mas também contribui para a formação de hábitos mais consistentes de estudo e aprendizado.
+# Funcionabilidaddes do App:
+- **Sistema de Login (mínimo: aluno)**
+    
+    - Mostra noção de autenticação.
+        
+    - Pode começar simples (usuário e senha armazenados localmente ou via Firebase).
+        
+- **Cadastro e listagem de disciplinas por semestre**
+    
+    - Estrutura organizada.
+        
+    - Permite expansão futura (como plano de aula e gráficos).
+        
+- **Agenda/Calendário integrado ao app**
+    
+    - Visualização semanal/mensal.
+        
+    - Associa eventos (provas, trabalhos, aulas).
+        
+- **Notificações**
+    
+    - Lembrete de prova, entrega de trabalho, horário de aula.
+        
+    - Agrega muito valor ao projeto.
+        
+- **Rotina de estudos**
+    
+    - O aluno monta sua própria agenda paralela (estudos extras).
+        
+    - Demonstra preocupação com a experiência do usuário.
+	    
+- **Plano de aula vinculado à disciplina**
+    
+    - Visualização dos conteúdos programados.
+        
+    - Mais útil para professores, mas agrega para o aluno também.
+        
+- **Chamada de turma (para professores)**
+    
+    - Boa para mostrar login em camadas (aluno vs. professor).
+        
+    - Difícil de implementar 100% sem backend robusto.
+        
+- **Gráficos de desempenho**
+    
+    - Notas, presença, horas de estudo.
+        
+    - Demonstra uso de bibliotecas externas e visão analítica.
+        
+- **Integração com Google Calendar**
+    
+    - Impressiona na apresentação.
+        
+    - Mostra conhecimento em APIs externas.
+        
+- **Integração com Google Classroom**
+    
+    - Muito interessante, mas é complexo (precisa autenticação OAuth e leitura de dados externos).
+        
+    - Melhor ser apresentado como **visão futura**.
+
+# Sistemas e linguagens utilizadas:
+- **Linguagem principa:** TypeScript
+- **Frontend:** React Native(via Expo)
+- **Backend:** Firebase
+- **Gerenciamento de estado:** Context API ou REduxToolkit
+- **Banco de Dados:** Firebase FIrestore
+- **Autenticação:** Firebase Authentication
+- **Notificações:** expo-notifications e Push notification(VIa Firebase CLoud Messaging)
+- **Integrações:** Google Calendar API
+- **Visualização de Dados:** Recharts
+
+# Estrutura MVVM
+# Carcteristicas de cada Usuário:
+- Estudante:
+	- Visualizar as materias e conteudos programticos para cada materia
+	- Visualizar as aulas e horarios de aula do dia, assim como o professor associado a cada materia
+	- Ter acesso as materias e conteudos do semestre anterior
+	- Visualizar as notas da materia
+	- Visualizar as estatisticas de notas e frequencia de aula
+	- Receber notificações criadas pelos professores e coordenadores a cerca dos detlahes sobre aulas ou eventos
+	- Visualizar os detalhes sobre a minha rotina de estudos e os paramentros associados
+	- Fazer login usando meu numero de matricula e CPF
+- Professor:
+- Coordenador:
+	- Criar as matriculas dos alunos e cadastralos corretamente no primeiro semestre da faculdade
+	- Criar os cursos e definir a quantidade correta dos semestres associados a cada um corretamente
+	- Definir corretamente quais materias são dependentes de quais e associar um professor a esta materia
+- Sistema:
+	- Atualizar corretamente cada aluno em seu semestre correspondente(caso passe com as notas subir 1 semestre até o limite de semestres do curso, caso o aluno repita de ano deve corretamente passar ou não de materias)
