@@ -1,0 +1,37 @@
+/app-universitaria
+ ├── src/
+ │   ├── models/              # Representação dos dados + regras
+ │   │    ├── User.ts
+ │   │    ├── Course.ts
+ │   │    ├── Subject.ts
+ │   │    └── Notification.ts
+ │   │
+ │   ├── viewmodels/          # Lógica de ligação entre View ↔ Model
+ │   │    ├── AuthViewModel.ts
+ │   │    ├── StudentViewModel.ts
+ │   │    ├── ProfessorViewModel.ts
+ │   │    └── CoordinatorViewModel.ts
+ │   │
+ │   ├── views/               # Telas (React Native Components)
+ │   │    ├── LoginScreen.tsx
+ │   │    ├── DashboardStudent.tsx
+ │   │    ├── DashboardProfessor.tsx
+ │   │    ├── DashboardCoordinator.tsx
+ │   │    └── ProfileScreen.tsx
+ │   │
+ │   ├── services/            # Integrações com Firebase
+ │   │    ├── firebase.ts
+ │   │    ├── authService.ts
+ │   │    ├── userService.ts
+ │   │    └── notificationService.ts
+ │   │
+ │   ├── navigation/          # Rotas do app
+ │   │    └── AppNavigator.tsx
+ │   │
+ │   ├── utils/               # Funções auxiliares
+ │   │    └── validators.ts
+ │   │
+ │   └── App.tsx              # Ponto de entrada
+ │
+ ├── package.json
+ └── tsconfig.json

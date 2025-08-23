@@ -1,0 +1,53 @@
+# Regras de Negocio:
+- ## Estudante
+	 - ### Atribuições
+	    - Visualizar matérias matriculadas no semestre atual.
+	    - Consultar conteúdos programáticos de cada disciplina.
+	    - Visualizar horários de aula e professores responsáveis.
+	    - Acessar histórico de disciplinas de semestres anteriores.
+	    - Visualizar notas e estatísticas de frequência.
+	    - Receber notificações enviadas por professores e coordenadores.
+	    - Consultar sua rotina de estudos e parâmetros definidos.
+	 - ### Permissões
+		- **Acesso restrito aos seus próprios dados acadêmicos.**
+		- **Não pode** editar, criar ou excluir disciplinas, cursos ou matrículas.
+		- **Não pode** acessar dados de outros alunos.
+		- Pode apenas **visualizar** e **receber informações**, sem papel administrativo.
+- ## Professor
+	- ### Atribuições
+		-  Visualizar disciplinas sob sua responsabilidade.
+		- Registrar conteúdos ou atualizações para a disciplina.
+		- Lançar notas e frequência dos alunos.
+		- Enviar notificações aos alunos de suas disciplinas.
+		- Consultar relatórios de desempenho da turma.
+	- ### Permissões
+		- **Acesso limitado apenas às disciplinas que leciona.**
+		- Pode **editar e lançar dados acadêmicos** (notas, frequência, conteúdos) somente de suas turmas.
+		- Não pode criar cursos, semestres ou matricular alunos.
+		- Não pode acessar dados administrativos ou de outros professores.
+- ## Coordenador
+	- ### Atribuições
+		- Criar e gerenciar cursos.
+		- Definir quantidade de semestres de cada curso.
+		- Criar disciplinas e definir pré-requisitos entre elas.
+		- Associar professores a disciplinas.
+		- Realizar matrícula de novos alunos.
+		- Atualizar status de matrícula (ativo, trancado, concluído, cancelado).
+		- Enviar comunicados gerais para alunos e professores.	    
+		- Acompanhar relatórios acadêmicos consolidados (turmas, cursos, desempenho).
+	- ### Permissões
+		- **Acesso total aos cursos e alunos sob sua gestão.**
+		- Pode **criar, editar e excluir cursos, disciplinas e vínculos.**   
+		- Pode gerenciar **usuários (alunos e professores)** no sistema.
+		- Não pode acessar áreas de coordenação de outros cursos/faculdades (caso exista mais de uma unidade). 
+- ## Sistema (Funções Automáticas)
+	- ### Atribuições
+		- Atualizar progressão do aluno automaticamente (promoção de semestre ou retenção).
+		- Sincronizar alterações feitas no App e na Web em tempo real.
+		- Aplicar regras de negócio de login, acesso e segurança.
+		- Controlar consistência dos dados acadêmicos.
+		- Emitir logs e relatórios de auditoria.
+	- ### Permissões
+		- **Acesso irrestrito a todas as camadas do sistema** (apenas em nível interno).    
+		- Executa **validações automáticas** (ex.: verificar pré-requisitos antes da matrícula, validar aprovação em disciplinas).
+		- Garante que **nenhum usuário possa ultrapassar suas permissões.**
