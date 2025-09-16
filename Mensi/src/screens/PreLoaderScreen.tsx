@@ -1,27 +1,28 @@
-// src/screens/PreLoaderScreen.tsx
 import React, { useEffect } from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types"; import { useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-  Home: undefined;
-};
+type PreLoaderScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "PreLoader"
+>;
 
 export default function PreLoaderScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<PreLoaderScreenNavigationProp>();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace("Home"); // Troca PreLoader pela Home
-    }, 2000); // 2 segundos de preloader (ajuste se quiser mais tempo)
+      navigation.replace("HomePage"); // agora vai funcionar porque existe
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [navigation]);
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#0000ff" />
+      <ActivityIndicator size="large" color="#000" />
+      <Text>Carregando...</Text>
     </View>
   );
 }
@@ -31,6 +32,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
   },
 });

@@ -8,6 +8,7 @@ import {
   Alert,
   StyleSheet,
   Dimensions,
+  SafeAreaView,
 } from "react-native";
 import api from "../services/api";
 import { saveToken } from "../services/secureStore";
@@ -25,16 +26,21 @@ export default function LoginScreen({ navigation }: any) {
       const response = await api.post("/auth/login", { email, password });
       const { accessToken } = response.data;
       await saveToken(accessToken);
-      navigation.replace("Home"); // Vai para Home e substitui a pilha
+
+      // Direciona para HomePageScreen (nome registrado no navigator)
+      navigation.replace("HomePage"); 
     } catch (err: any) {
-      Alert.alert("Erro de Login", err.response?.data?.error || "Verifique suas credenciais.");
+      Alert.alert(
+        "Erro de Login",
+        err.response?.data?.error || "Verifique suas credenciais."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Logo */}
       <Text style={styles.logo}>mEnSi</Text>
 
@@ -46,7 +52,7 @@ export default function LoginScreen({ navigation }: any) {
         <TextInput
           style={styles.input}
           placeholder="Email"
-          placeholderTextColor="#777" // Mais escuro para contraste no fundo branco
+          placeholderTextColor="#999"
           autoCapitalize="none"
           keyboardType="email-address"
           value={email}
@@ -55,109 +61,113 @@ export default function LoginScreen({ navigation }: any) {
         <TextInput
           style={styles.input}
           placeholder="Senha"
-          placeholderTextColor="#777" // Mais escuro para contraste no fundo branco
+          placeholderTextColor="#999"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
         />
 
-        {/* Botão Logar (Preto) */}
+        {/* Botão Logar */}
         <TouchableOpacity
           style={[styles.buttonPrimary, loading && styles.buttonDisabled]}
           onPress={handleLogin}
           disabled={loading}
         >
-          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonPrimaryText}>Logar</Text>}
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.buttonPrimaryText}>Logar</Text>
+          )}
         </TouchableOpacity>
 
-        {/* Botão Voltar/Cadastrar (Branco com borda) */}
+        {/* Botão Voltar */}
         <TouchableOpacity
           style={styles.buttonSecondary}
-          onPress={() => navigation.navigate("Home")} // Ajuste se precisar voltar para uma tela diferente
+          onPress={() => navigation.goBack()} // Volta para a tela anterior
         >
           <Text style={styles.buttonSecondaryText}>Voltar</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000", // Fundo preto para a parte superior
+    backgroundColor: "#000",
     alignItems: "center",
   },
   logo: {
-    fontFamily: "IBM Plex Sans", // Certifique-se de que a fonte está carregada
+    fontFamily: "IBM Plex Sans",
     fontSize: 68,
     fontWeight: "500",
     color: "#fff",
-    marginTop: height * 0.13, // Ajusta a posição do logo
-    marginBottom: height * 0.1, // Adiciona espaço entre o logo e o card branco
+    marginTop: height * 0.13,
+    marginBottom: height * 0.1,
   },
   whiteCard: {
     width: "100%",
-    height: height * 0.6, // Ajuste a altura conforme necessário
+    height: height * 0.6,
     backgroundColor: "#fff",
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingHorizontal: 24,
-    paddingTop: 40, // Espaçamento interno superior
+    paddingTop: 40,
     alignItems: "center",
-    position: 'absolute', // Permite posicionar o card na parte inferior
+    position: "absolute",
     bottom: 0,
   },
   loginTitle: {
-    fontFamily: "IBM Plex Sans", // Certifique-se de que a fonte está carregada
+    fontFamily: "IBM Plex Sans",
     fontSize: 42,
     fontWeight: "300",
     color: "#000",
     textAlign: "center",
-    marginBottom: 30, // Espaçamento abaixo do título
+    marginBottom: 30,
   },
   input: {
-    width: "90%", // Mais largo para preencher o card
-    backgroundColor: "#fff", // Fundo branco do input
+    width: "90%",
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#ccc", // Borda cinza clara
+    borderColor: "#ccc",
     padding: 15,
     borderRadius: 8,
     marginBottom: 15,
     fontSize: 16,
-    color: "#000", // Texto preto
+    color: "#000",
   },
   buttonPrimary: {
-    width: "90%", // Mais largo para preencher o card
-    backgroundColor: "#000", // Botão preto
+    width: "90%",
+    backgroundColor: "#000",
     padding: 15,
-    borderRadius: 8, // Mais quadrado
+    borderRadius: 8,
     alignItems: "center",
-    marginTop: 20, // Mais espaço antes do primeiro botão
+    marginTop: 20,
   },
   buttonPrimaryText: {
-    fontFamily: "IBM Plex Sans", // Certifique-se de que a fonte está carregada
-    color: "#fff", // Texto branco
+    fontFamily: "IBM Plex Sans",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "500",
   },
   buttonSecondary: {
-    width: "90%", // Mais largo para preencher o card
-    backgroundColor: "#fff", // Fundo branco
+    width: "90%",
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#000", // Borda preta
+    borderColor: "#000",
     padding: 15,
-    borderRadius: 8, // Mais quadrado
+    borderRadius: 8,
     alignItems: "center",
     marginTop: 12,
   },
   buttonSecondaryText: {
-    fontFamily: "IBM Plex Sans", // Certifique-se de que a fonte está carregada
-    color: "#000", // Texto preto
+    fontFamily: "IBM Plex Sans",
+    color: "#000",
     fontSize: 16,
     fontWeight: "500",
   },
   buttonDisabled: {
-    backgroundColor: "#444", // Cor para quando o botão está desabilitado
+    backgroundColor: "#444",
   },
 });
