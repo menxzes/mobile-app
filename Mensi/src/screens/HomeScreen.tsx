@@ -1,36 +1,83 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { deleteToken } from "../services/secureStore";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
+import api from "../services/api";
+import { saveToken } from "../services/secureStore";
 
-export default function HomeScreen({ navigation }: any) {
-  const handleLogout = async () => {
-    Alert.alert(
-      "Sair da Conta",
-      "Tem certeza que deseja sair?",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Sim",
-          onPress: async () => {
-            await deleteToken();
-            navigation.replace("Login");
-          },
-        },
-      ]
-    );
+const { width, height } = Dimensions.get("window");
+
+export default function LoginScreen({ navigation }: any) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      const response = await api.post("/auth/login", { email, password });
+      const { accessToken } = response.data;
+      await saveToken(accessToken);
+      navigation.replace("Home"); // Vai para Home e substitui a pilha
+    } catch (err: any) {
+      Alert.alert("Erro de Login", err.response?.data?.error || "Verifique suas credenciais.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Olá! 👋</Text>
-      <Text style={styles.subtitle}>Você está logado com sucesso.</Text>
+      {/* Logo */}
+      <Text style={styles.logo}>mEnSi</Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Sair</Text>
-      </TouchableOpacity>
+      {/* Card Branco */}
+      <View style={styles.whiteCard}>
+        <Text style={styles.loginTitle}>Login</Text>
+
+        {/* Inputs */}
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#777"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          placeholderTextColor="#777"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+
+        {/* Botão Logar (Preto) */}
+        <TouchableOpacity
+          style={[styles.buttonPrimary, loading && styles.buttonDisabled]}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonPrimaryText}>Logar</Text>}
+        </TouchableOpacity>
+
+        {/* Botão Voltar/Cadastrar (Branco com borda) */}
+        <TouchableOpacity
+          style={styles.buttonSecondary}
+          onPress={() => navigation.navigate("Home")} // MUDANÇA AQUI: Agora navega para a tela Home
+        >
+          <Text style={styles.buttonSecondaryText}>Voltar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -38,38 +85,79 @@ export default function HomeScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    backgroundColor: "#000",
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
   },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 10,
+  logo: {
+    fontFamily: "IBM Plex Sans",
+    fontSize: 68,
+    fontWeight: "500",
+    color: "#fff",
+    marginTop: height * 0.13,
+    marginBottom: height * 0.1,
   },
-  subtitle: {
-    fontSize: 18,
-    color: "#555",
-    marginBottom: 40,
+  whiteCard: {
+    width: "100%",
+    height: height * 0.6,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingHorizontal: 24,
+    paddingTop: 40,
+    alignItems: "center",
+    position: 'absolute',
+    bottom: 0,
+  },
+  loginTitle: {
+    fontFamily: "IBM Plex Sans",
+    fontSize: 42,
+    fontWeight: "300",
+    color: "#000",
     textAlign: "center",
+    marginBottom: 30,
   },
-  button: {
-    backgroundColor: "#dc3545",
-    paddingHorizontal: 30,
-    paddingVertical: 12,
+  input: {
+    width: "90%",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 15,
+    fontSize: 16,
+    color: "#000",
+  },
+  buttonPrimary: {
+    width: "90%",
+    backgroundColor: "#000",
+    padding: 15,
     borderRadius: 8,
     alignItems: "center",
     marginTop: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
   },
-  buttonText: {
+  buttonPrimaryText: {
+    fontFamily: "IBM Plex Sans",
     color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  buttonSecondary: {
+    width: "90%",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#000",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 12,
+  },
+  buttonSecondaryText: {
+    fontFamily: "IBM Plex Sans",
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  buttonDisabled: {
+    backgroundColor: "#444",
   },
 });

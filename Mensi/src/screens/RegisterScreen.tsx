@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Alert, StyleSheet } from "react-native";
 import api from "../services/api";
 
 export default function RegisterScreen({ navigation }: any) {
@@ -23,50 +23,63 @@ export default function RegisterScreen({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Crie sua conta</Text>
+      {/* Logo */}
+      <Text style={styles.logo}>mEnSi</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        placeholderTextColor="#999"
-        value={name}
-        onChangeText={setName}
-      />
+      {/* Caixa branca */}
+      <View style={styles.whiteBox}>
+        <Text style={styles.title}>Cadastro</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#999"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
+        {/* Inputs */}
+        <TextInput
+          style={styles.input}
+          placeholder="Nome"
+          placeholderTextColor="#49454F"
+          value={name}
+          onChangeText={setName}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        placeholderTextColor="#999"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#49454F"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
+        />
 
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          placeholderTextColor="#49454F"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+
+        {/* Botão cadastrar */}
+        <TouchableOpacity
+          style={[styles.buttonPrimary, loading && styles.buttonDisabled]}
+          onPress={handleRegister}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.buttonPrimaryText}>Cadastrar</Text>
+          )}
+        </TouchableOpacity>
+
+        {/* Botão voltar */}
       <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
-        onPress={handleRegister}
-        disabled={loading}
+        style={styles.buttonSecondary}
+        onPress={() => navigation.navigate("Home")}
       >
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>Cadastrar</Text>
-        )}
+        <Text style={styles.buttonSecondaryText}>Voltar</Text>
       </TouchableOpacity>
 
-      <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
-        Já tem uma conta? <Text style={styles.linkBold}>Voltar para o Login</Text>
-      </Text>
+      </View>
     </View>
   );
 }
@@ -74,54 +87,74 @@ export default function RegisterScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 30,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#000",
+    alignItems: "center",
+  },
+  logo: {
+    fontFamily: "IBM Plex Sans",
+    fontSize: 68,
+    fontWeight: "500",
+    color: "#fff",
+    marginTop: 120,
+  },
+  whiteBox: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: 517,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingHorizontal: 24,
+    paddingTop: 32,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
+    fontFamily: "IBM Plex Sans",
+    fontSize: 42,
+    fontWeight: "300",
+    color: "#000",
     textAlign: "center",
-    marginBottom: 40,
+    marginBottom: 30,
   },
   input: {
-    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#e0e0e0",
+    borderColor: "#79747E",
+    borderRadius: 4,
     padding: 15,
-    borderRadius: 8,
     marginBottom: 15,
     fontSize: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    fontFamily: "Roboto",
+    color: "#000",
   },
-  button: {
-    backgroundColor: "#007bff",
+  buttonPrimary: {
+    backgroundColor: "#000",
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 16,
     alignItems: "center",
-    marginTop: 10,
+    marginTop: 20,
+  },
+  buttonPrimaryText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "IBM Plex Sans",
+  },
+  buttonSecondary: {
+    backgroundColor: "#fff",
+    borderWidth: 3,
+    borderColor: "#000",
+    padding: 15,
+    borderRadius: 16,
+    alignItems: "center",
+    marginTop: 12,
+  },
+  buttonSecondaryText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "IBM Plex Sans",
   },
   buttonDisabled: {
-    backgroundColor: "#a0cfff",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  link: {
-    color: "#555",
-    marginTop: 20,
-    textAlign: "center",
-    fontSize: 14,
-  },
-  linkBold: {
-    fontWeight: "bold",
-    color: "#007bff",
+    backgroundColor: "#444",
   },
 });
