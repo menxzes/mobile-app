@@ -73,7 +73,7 @@ export default function LoginScreen({ navigation }: any) {
         {/* Botão Voltar/Cadastrar (Branco com borda) */}
         <TouchableOpacity
           style={styles.buttonSecondary}
-          onPress={() => navigation.navigate("Register")} // Ajuste se precisar voltar para uma tela diferente
+          onPress={() => navigation.navigate("Home")} // Ajuste se precisar voltar para uma tela diferente
         >
           <Text style={styles.buttonSecondaryText}>Voltar</Text>
         </TouchableOpacity>

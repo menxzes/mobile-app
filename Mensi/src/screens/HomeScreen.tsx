@@ -1,81 +1,43 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
-import api from "../services/api";
-import { saveToken } from "../services/secureStore";
+// src/screens/HomeScreen.tsx
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const { width, height } = Dimensions.get("window");
+type RootStackParamList = {
+  Login: undefined;
+  Register: undefined;
+};
 
-export default function LoginScreen({ navigation }: any) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleLogin = async () => {
-    setLoading(true);
-    try {
-      const response = await api.post("/auth/login", { email, password });
-      const { accessToken } = response.data;
-      await saveToken(accessToken);
-      navigation.replace("Home"); // Vai para Home e substitui a pilha
-    } catch (err: any) {
-      Alert.alert("Erro de Login", err.response?.data?.error || "Verifique suas credenciais.");
-    } finally {
-      setLoading(false);
-    }
-  };
+export default function HomeScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.container}>
       {/* Logo */}
       <Text style={styles.logo}>mEnSi</Text>
 
-      {/* Card Branco */}
-      <View style={styles.whiteCard}>
-        <Text style={styles.loginTitle}>Login</Text>
+      {/* Área preta com textos */}
+      <View style={styles.contentBox}>
+        <Text style={styles.welcome}>Boas-vindas!</Text>
+        <Text style={styles.description}>
+          A mEnSi tem a proposta de ser uma rede social diferente para o público amante de tecnologia. 
+          Aqui você pode realizar seu Login, caso tenha uma conta, senão, realize seu cadastro.
+        </Text>
 
-        {/* Inputs */}
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#777"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          placeholderTextColor="#777"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-
-        {/* Botão Logar (Preto) */}
+        {/* Botões */}
         <TouchableOpacity
-          style={[styles.buttonPrimary, loading && styles.buttonDisabled]}
-          onPress={handleLogin}
-          disabled={loading}
+          style={styles.button}
+          onPress={() => navigation.navigate("Login")}
         >
-          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonPrimaryText}>Logar</Text>}
+          <Text style={styles.buttonText}>Logar</Text>
         </TouchableOpacity>
 
-        {/* Botão Voltar/Cadastrar (Branco com borda) */}
         <TouchableOpacity
-          style={styles.buttonSecondary}
-          onPress={() => navigation.navigate("Home")} // MUDANÇA AQUI: Agora navega para a tela Home
+          style={styles.button}
+          onPress={() => navigation.navigate("Register")}
         >
-          <Text style={styles.buttonSecondaryText}>Voltar</Text>
+          <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -85,79 +47,50 @@ export default function LoginScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
   },
   logo: {
-    fontFamily: "IBM Plex Sans",
     fontSize: 68,
     fontWeight: "500",
-    color: "#fff",
-    marginTop: height * 0.13,
-    marginBottom: height * 0.1,
+    fontFamily: "IBM Plex Sans",
+    color: "#000000",
+    marginTop: 80,
   },
-  whiteCard: {
+  contentBox: {
+    marginTop: 60,
     width: "100%",
-    height: height * 0.6,
-    backgroundColor: "#fff",
+    flex: 1,
+    backgroundColor: "#000000",
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
-    paddingHorizontal: 24,
-    paddingTop: 40,
     alignItems: "center",
-    position: 'absolute',
-    bottom: 0,
+    padding: 24,
   },
-  loginTitle: {
-    fontFamily: "IBM Plex Sans",
+  welcome: {
     fontSize: 42,
     fontWeight: "300",
-    color: "#000",
+    color: "#FFFFFF",
+    marginBottom: 12,
     textAlign: "center",
-    marginBottom: 30,
   },
-  input: {
-    width: "90%",
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 15,
-    fontSize: 16,
-    color: "#000",
+  description: {
+    fontSize: 14,
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom: 40,
   },
-  buttonPrimary: {
-    width: "90%",
-    backgroundColor: "#000",
-    padding: 15,
-    borderRadius: 8,
+  button: {
+    width: "70%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    paddingVertical: 14,
     alignItems: "center",
-    marginTop: 20,
+    marginBottom: 16,
   },
-  buttonPrimaryText: {
-    fontFamily: "IBM Plex Sans",
-    color: "#fff",
+  buttonText: {
     fontSize: 16,
     fontWeight: "500",
-  },
-  buttonSecondary: {
-    width: "90%",
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#000",
-    padding: 15,
-    borderRadius: 8,
-    alignItems: "center",
-    marginTop: 12,
-  },
-  buttonSecondaryText: {
-    fontFamily: "IBM Plex Sans",
-    color: "#000",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  buttonDisabled: {
-    backgroundColor: "#444",
+    color: "#000000",
   },
 });
