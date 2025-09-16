@@ -21,22 +21,7 @@ export default function LoginScreen({ navigation }: any) {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    setLoading(true);
-    try {
-      const response = await api.post("/auth/login", { email, password });
-      const { accessToken } = response.data;
-      await saveToken(accessToken);
-
-      // Direciona para HomePageScreen (nome registrado no navigator)
-      navigation.replace("HomePage"); 
-    } catch (err: any) {
-      Alert.alert(
-        "Erro de Login",
-        err.response?.data?.error || "Verifique suas credenciais."
-      );
-    } finally {
-      setLoading(false);
-    }
+    navigation.replace("HomePage"); 
   };
 
   return (

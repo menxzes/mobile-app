@@ -1,7 +1,9 @@
+// src/screens/PreLoaderScreen.tsx
 import React, { useEffect } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types"; import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../types"; // Importe do arquivo de tipos
 
 type PreLoaderScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -13,8 +15,17 @@ export default function PreLoaderScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace("HomePage"); // agora vai funcionar porque existe
-    }, 2000);
+      // Simula a verificação de login.
+      const isLoggedIn = false; // Mude para 'true' para testar a rota logada
+
+      if (isLoggedIn) {
+        // Se o usuário está logado, navegue para a HomePage
+        navigation.replace("HomePage");
+      } else {
+        // Se não estiver logado, navegue para a Home (tela inicial antes do login/cadastro)
+        navigation.replace("Home");
+      }
+    }, 2000); // Exibe o Preloader por 2 segundos
 
     return () => clearTimeout(timer);
   }, [navigation]);
