@@ -4064,7 +4064,7 @@ expo-web-browser@~15.0.7:
   resolved "https://registry.npmjs.org/expo-web-browser/-/expo-web-browser-15.0.7.tgz"
   integrity sha512-eXnfO3FQ2WthTA8uEPNJ7SDRfPaLIU/P2k082HGEYIHAFZMwh2o9Wo+SDVytO3E95TAv1qwhggUjOrczYzxteQ==
 
-expo@*, expo@54.0.8:
+expo@*, expo@^54.0.8:
   version "54.0.8"
   resolved "https://registry.npmjs.org/expo/-/expo-54.0.8.tgz"
   integrity sha512-H4nUVvAczd9ZPWrAR3oXxEr/EkLfPxXg5gBvFgZI4WnGNthehqEYB37urXgj9fvgSBxNaRUkySL4uwr9VB2J8Q==
