@@ -58,10 +58,10 @@ export default function RegisterScreen({ navigation }: any) {
           onChangeText={setPassword}
         />
 
-        {/* Botão cadastrar */}
+        {/* Botão cadastrar - Não funciona*/}
         <TouchableOpacity
           style={[styles.buttonPrimary, loading && styles.buttonDisabled]}
-          onPress={handleRegister}
+          onPress={ () => navigation.navigate("HomePage")}
           disabled={loading}
         >
           {loading ? (
@@ -71,12 +71,12 @@ export default function RegisterScreen({ navigation }: any) {
           )}
         </TouchableOpacity>
 
-        {/* Botão voltar */}
+        {/* Botão voltar - Não funciona*/}
       <TouchableOpacity
         style={styles.buttonSecondary}
         onPress={() => navigation.navigate("Home")}
       >
-        <Text style={styles.buttonSecondaryText}>Voltar</Text>
+      <Text style={styles.buttonSecondaryText}>Voltar</Text>
       </TouchableOpacity>
 
       </View>

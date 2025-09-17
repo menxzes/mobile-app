@@ -32,7 +32,7 @@ export default function PreLoaderScreen() {
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#000" />
+      <ActivityIndicator size="large" color="#ffff" />
       <Text>Carregando...</Text>
     </View>
   );
